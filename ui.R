@@ -28,7 +28,9 @@ ui=dashboardPage(
                              bs4ValueBox(health_education,"Provided Health Education",icon = icon("person"),width=3,color="success"),
                              bs4ValueBox(srh_info,"Provided SRH Information",icon = icon("map-marker"),width=3,color="danger"),
                              bs4ValueBox(tested_for_hiv,"Tested forHIV",icon = icon("building"),width=3,color="info"),
-                             bs4ValueBox(screened_sti,"Screened for STI",icon = icon("building"),width=3,color="secondary")
+                             bs4ValueBox(screened_sti,"Screened for STI",icon = icon("building"),width=3,color="secondary"),
+                             bs4ValueBox(ayp_f,"Total Female",icon = icon("person"),width=3,color="pink"),
+                             bs4ValueBox(ayp_m,"Total Male",icon = icon("person"),width=3,color="success")
                              ),
                     fluidRow(
                         bs4Card(
@@ -127,6 +129,19 @@ ui=dashboardPage(
                                  ),
                                  fluidRow(
                                      bs4Card(width=12,
+                                             title = strong("KEY INDICATOR STRATEFIED BY AGE"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "ageRegionInput",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(fsw_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("fsw_indicators_age")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
                                              title = strong("Defined Package INDICATOR PROGRESS SUMMARY"),status = "fuchsia",icon = icon("person"),
                                              selectInput(
                                                  inputId = "definedRegionInput",
@@ -139,7 +154,66 @@ ui=dashboardPage(
                                      )
                                  )
                                  ),
-                        tabPanel("2024-ANALYTICS")
+                        tabPanel("2024-ANALYTICS",
+                                 fluidRow(width=12,
+                                          bs4ValueBox(0,"Total enrolled",icon = icon("person"),width=3,color="info"),
+                                          bs4ValueBox(0,"No of counties",icon = icon("map-marker"),width=3,color="danger"),
+                                          bs4ValueBox(0,"No of SR",icon = icon("building"),width=3,color="success"),
+                                          bs4ValueBox(0,"No of PE",icon = icon("building"),width=3,color="secondary"),
+                                          
+                                 ),
+                                 fluidRow(
+                                     
+                                     bs4Card(
+                                         title = strong("HIV Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "hivRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(fsw_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         dataTableOutput("enrol_status24")
+                                     ),
+                                     bs4Card(
+                                         title = strong("HIV Chart Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "hivRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(fsw_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         plotlyOutput("enrol_status_chart24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("KEY INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "indicatorRegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(fsw_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("fsw_indicators24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("Defined Package INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "definedRegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(fsw_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("fsw_defined24")
+                                     )
+                                 )
+                                 )
                     )
                    
             ),
@@ -205,7 +279,66 @@ ui=dashboardPage(
                                      )
                                  )
                         ),
-                        tabPanel("2024-ANALYTICS")
+                        tabPanel("2024-ANALYTICS",
+                                 fluidRow(width=12,
+                                          bs4ValueBox(0,"Total enrolled",icon = icon("person"),width=3,color="info"),
+                                          bs4ValueBox(0,"No of counties",icon = icon("map-marker"),width=3,color="danger"),
+                                          bs4ValueBox(0,"No of SR",icon = icon("building"),width=3,color="success"),
+                                          bs4ValueBox(0,"No of PE",icon = icon("building"),width=3,color="secondary"),
+                                          
+                                 ),
+                                 fluidRow(
+                                     
+                                     bs4Card(
+                                         title = strong("HIV Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "msmhivRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(msm_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         dataTableOutput("enrol_status_msm24")
+                                     ),
+                                     bs4Card(
+                                         title = strong("HIV Chart Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "msmhivRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(msm_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         plotlyOutput("enrol_status_chart_msm24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("MSM KEY INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "indicator_msm_RegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(msm_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("msm_indicators24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("Defined Package INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "defined_msm_RegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(msm_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("msm_defined24")
+                                     )
+                                 )
+                                 )
                     )
                     
             ),
@@ -271,7 +404,66 @@ ui=dashboardPage(
                                      )
                                  )
                         ),
-                        tabPanel("2024-ANALYTICS")
+                        tabPanel("2024-ANALYTICS",
+                                 fluidRow(width=12,
+                                          bs4ValueBox(0,"Total enrolled",icon = icon("person"),width=3,color="info"),
+                                          bs4ValueBox(0,"No of counties",icon = icon("map-marker"),width=3,color="danger"),
+                                          bs4ValueBox(0,"No of SR",icon = icon("building"),width=3,color="success"),
+                                          bs4ValueBox(0,"No of PE",icon = icon("building"),width=3,color="secondary"),
+                                          
+                                 ),
+                                 fluidRow(
+                                     
+                                     bs4Card(
+                                         title = strong("HIV Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "PWIDRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(pwid_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         dataTableOutput("enrol_status_pwid24")
+                                     ),
+                                     bs4Card(
+                                         title = strong("HIV Chart Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "PWIDRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(pwid_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         plotlyOutput("enrol_status_chart_pwid24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("MSM KEY INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "PWIDIndicatorRegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(pwid_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("pwid_indicators24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("Defined Package INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "pwiddefinedRegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(pwid_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("pwid_defined24")
+                                     )
+                                 )
+                                 )
                     )
                     
             ),
@@ -337,7 +529,66 @@ ui=dashboardPage(
                                      )
                                  )
                         ),
-                        tabPanel("2024-ANALYTICS")
+                        tabPanel("2024-ANALYTICS",
+                                 fluidRow(width=12,
+                                          bs4ValueBox(0,"Total enrolled",icon = icon("person"),width=3,color="info"),
+                                          bs4ValueBox(0,"No of counties",icon = icon("map-marker"),width=3,color="danger"),
+                                          bs4ValueBox(0,"No of SR",icon = icon("building"),width=3,color="success"),
+                                          bs4ValueBox(0,"No of PE",icon = icon("building"),width=3,color="secondary"),
+                                          
+                                 ),
+                                 fluidRow(
+                                     
+                                     bs4Card(
+                                         title = strong("HIV Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "TGRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(tg_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         dataTableOutput("enrol_status_tg24")
+                                     ),
+                                     bs4Card(
+                                         title = strong("HIV Chart Status at Enrollment(2024)"),status = "fuchsia",icon = icon("person"),
+                                         selectInput(
+                                             inputId = "TGRegionInput24",
+                                             label = "Filter by Region",
+                                             choices = c("All", unique(tg_consolidated$region)),
+                                             multiple = FALSE,
+                                             selectize = TRUE,
+                                         ),
+                                         plotlyOutput("enrol_status_chart_tg24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("TG KEY INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "TGIndicatorRegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(tg_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("tg_indicators24")
+                                     )
+                                 ),
+                                 fluidRow(
+                                     bs4Card(width=12,
+                                             title = strong("Defined Package INDICATOR PROGRESS SUMMARY(2024)"),status = "fuchsia",icon = icon("person"),
+                                             selectInput(
+                                                 inputId = "tgdefinedRegionInput24",
+                                                 label = "Filter by Region",
+                                                 choices = c("All", unique(tg_consolidated$region)),
+                                                 multiple = FALSE,
+                                                 selectize = TRUE,
+                                             ),
+                                             uiOutput("tg_defined24")
+                                     )
+                                 )
+                                 )
                     )
                     
             )

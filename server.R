@@ -443,6 +443,170 @@ server = function(input, output, session) {
                    )
         )
     })
+    output$fsw_indicators_age<-renderUI({
+        
+        filtered_data<-if(input$ageRegionInput=="All"){
+            fsw_consolidated
+        }
+        else{
+            filtered_data<-subset(fsw_consolidated,region %in% input$ageRegionInput)
+        }
+        peer_education_counts <- filtered_data %>%
+            filter(age >= 10 & age <= 24) %>%
+            summarise(across(starts_with("received_peer_education"), ~ sum(. == "Yes", na.rm = TRUE)))
+        peer_education_counts <- peer_education_counts %>%
+            select(where(~ . > 0))
+        peer_education_counts_25 <- filtered_data %>%
+            filter(age >= 25 & age <= 50) %>%
+            summarise(across(starts_with("received_peer_education"), ~ sum(. == "Yes", na.rm = TRUE)))
+        peer_education_counts_25 <- peer_education_counts_25 %>%
+            select(where(~ . > 0))
+        peer_education_counts_50 <- filtered_data %>%
+            filter(age >= 51 & age <= 100) %>%
+            summarise(across(starts_with("received_peer_education"), ~ sum(. == "Yes", na.rm = TRUE)))
+        peer_education_counts_50 <- peer_education_counts_50 %>%
+            select(where(~ . > 0))
+        risk_services_counts <- filtered_data %>%
+            filter(age >= 10 & age <= 24) %>%
+            summarise(across(starts_with("provided_with_risk_reduction_couselling"), ~ sum(. == "Yes", na.rm = TRUE)))
+        risk_services_counts <- risk_services_counts %>%
+            select(where(~ . > 0))
+        risk_services_counts_25 <- filtered_data %>%
+            filter(age >= 25 & age <= 50) %>%
+            summarise(across(starts_with("provided_with_risk_reduction_couselling"), ~ sum(. == "Yes", na.rm = TRUE)))
+        risk_services_counts_25 <- risk_services_counts_25 %>%
+            select(where(~ . > 0))
+        risk_services_counts_50 <- filtered_data %>%
+            filter(age >= 51 & age <= 100) %>%
+            summarise(across(starts_with("provided_with_risk_reduction_couselling"), ~ sum(. == "Yes", na.rm = TRUE)))
+        risk_services_counts_50 <- risk_services_counts_50 %>%
+            select(where(~ . > 0))
+        #tested for hiv
+        hiv_test_counts <- filtered_data %>%
+            filter(age >= 10 & age <= 24) %>%
+            summarise(across(starts_with("tested_for_hiv"), ~ sum(. == "Yes", na.rm = TRUE)))
+        hiv_test_counts <- hiv_test_counts %>%
+            select(where(~ . > 0))
+        hiv_test_counts_25 <- filtered_data %>%
+            filter(age >= 25 & age <= 50) %>%
+            summarise(across(starts_with("tested_for_hiv"), ~ sum(. == "Yes", na.rm = TRUE)))
+        hiv_test_counts_25 <- hiv_test_counts_25 %>%
+            select(where(~ . > 0))
+        hiv_test_counts_50 <- filtered_data %>%
+            filter(age >= 51 & age <= 100) %>%
+            summarise(across(starts_with("tested_for_hiv"), ~ sum(. == "Yes", na.rm = TRUE)))
+        hiv_test_counts_50 <- hiv_test_counts_50 %>%
+            select(where(~ . > 0))
+        Screened_tb_counts <- filtered_data %>%
+            filter(age >= 10 & age <= 24) %>%
+            summarise(across(starts_with("screened_for_tb"), ~ sum(. == "Yes", na.rm = TRUE)))
+        Screened_tb_counts <- Screened_tb_counts %>%
+            select(where(~ . > 0))
+        Screened_tb_counts_25 <- filtered_data %>%
+            filter(age >= 25 & age <= 50) %>%
+            summarise(across(starts_with("screened_for_tb"), ~ sum(. == "Yes", na.rm = TRUE)))
+        Screened_tb_counts_25 <- Screened_tb_counts_25 %>%
+            select(where(~ . > 0))
+        Screened_tb_counts_50 <- filtered_data %>%
+            filter(age >= 51 & age <= 100) %>%
+            summarise(across(starts_with("screened_for_tb"), ~ sum(. == "Yes", na.rm = TRUE)))
+        Screened_tb_counts_50 <- Screened_tb_counts_50 %>%
+            select(where(~ . > 0))
+        # count all those who received condoms
+        received_condom_counts <- filtered_data %>%
+            filter(age >= 10 & age <= 24) %>%
+            summarise(across(starts_with("condoms_distributed_nmbr"), ~ sum(. > 0, na.rm = TRUE)))
+        received_condom_counts <- received_condom_counts %>%
+            select(where(~ . > 0))
+        received_condom_counts_25 <- filtered_data %>%
+            filter(age >= 25 & age <= 50) %>%
+            summarise(across(starts_with("condoms_distributed_nmbr"), ~ sum(. > 0, na.rm = TRUE)))
+        received_condom_counts_25 <- received_condom_counts_25 %>%
+            select(where(~ . > 0))
+        received_condom_counts_50 <- filtered_data %>%
+            filter(age >= 51 & age <= 100) %>%
+            summarise(across(starts_with("condoms_distributed_nmbr"), ~ sum(. > 0, na.rm = TRUE)))
+        received_condom_counts_50 <- received_condom_counts_50 %>%
+            select(where(~ . > 0))
+        #count those who were screened for STI
+        sti_counts <- filtered_data %>%
+            filter(age >= 10 & age <= 24) %>%
+            summarise(across(starts_with("screened_for_stis"), ~ sum(. == "Yes", na.rm = TRUE)))
+        sti_counts <- sti_counts %>%
+            select(where(~ . > 0))
+        sti_counts_24 <- filtered_data %>%
+            filter(age >= 25 & age <= 50) %>%
+            summarise(across(starts_with("screened_for_stis"), ~ sum(. == "Yes", na.rm = TRUE)))
+        sti_counts_24 <- sti_counts_24 %>%
+            select(where(~ . > 0))
+        sti_counts_50 <- filtered_data %>%
+            filter(age >= 51 & age <= 100) %>%
+            summarise(across(starts_with("screened_for_stis"), ~ sum(. == "Yes", na.rm = TRUE)))
+        sti_counts_50 <- sti_counts_50 %>%
+            select(where(~ . > 0))
+        
+        tags$table(class = "table table-striped table-bordered table-hover",
+                   tags$thead(
+                       tags$tr(
+                           tags$th("Type"),
+                           tags$td(style="font-weight:bold;text-align:center","10-24" ),
+                           tags$th(style="text-align:center","25-50"),
+                           tags$th(style="text-align:center","> 50")
+                           
+                       )),
+                   tags$tbody(
+                       tags$tr(
+                           tags$td(style="font-weight:bold;", "Received Peer Education"),
+                           tags$td(style="text-align:center",max(peer_education_counts)),
+                           tags$td(style="text-align:center",max(peer_education_counts_25)),
+                           tags$td(style="text-align:center",max(peer_education_counts_50))
+
+                           
+                       ),   
+                       tags$tr(
+                           tags$td(style="font-weight:bold;", "Provided with Risk reduction Counselling"),
+                           tags$td(style="text-align:center",max(risk_services_counts)),
+                           tags$td(style="text-align:center",max(risk_services_counts_25)),
+                           tags$td(style="text-align:center",max(risk_services_counts_50))
+
+                           
+                       ),  
+                       tags$tr(
+                           tags$td(style="font-weight:bold;", "Tested for HIV"),
+                           tags$td(style="text-align:center",max(hiv_test_counts)),
+                           # tags$td(style="text-align:center",),
+                           tags$td(style="text-align:center",max(hiv_test_counts_25)),
+                           tags$td(style="text-align:center",max(hiv_test_counts_50))
+                           
+                           
+                       ), 
+                       tags$tr(
+                           tags$td(style="font-weight:bold;","Screened for TB"),
+                           tags$td(style="text-align:center",max(Screened_tb_counts)),
+                           # tags$td(style="text-align:center",),
+                           tags$td(style="text-align:center",max(Screened_tb_counts_25)),
+                           tags$td(style="text-align:center",max(Screened_tb_counts_50))
+                           
+                       ), 
+                       tags$tr(
+                           tags$td(style="font-weight:bold;","Received Condoms"),
+                           tags$td(style="text-align:center",max(received_condom_counts)),
+                           tags$td(style="text-align:center",max(received_condom_counts_25)),
+                           tags$td(style="text-align:center",max(received_condom_counts_50))
+                           
+                       ),
+                       tags$tr(
+                           tags$td(style="font-weight:bold;","Screened for STI"),
+                           tags$td(style="text-align:center",max(sti_counts)),
+                           # tags$td(style="text-align:center",),
+                           tags$td(style="text-align:center",max(sti_counts_24)),
+                           tags$td(style="text-align:center",max(sti_counts_50))
+
+                       )
+                       
+                   )
+        )
+    })
     #fsw key indicator summaary
     output$fsw_defined<-renderUI({
         filtered_data<-if(input$definedRegionInput=="All"){

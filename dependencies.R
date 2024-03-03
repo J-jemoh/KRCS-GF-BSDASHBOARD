@@ -21,6 +21,8 @@ health_education<-nrow(filter(AYP,provided_health_education=="Yes"))
 srh_info<-nrow(filter(AYP,provided_other_srh_information=="Yes"))
 tested_for_hiv<-nrow(filter(AYP,tested_for_hiv=="Yes"))
 screened_sti<-nrow(filter(AYP,sti_screening=="Yes"))
+ayp_f<-nrow(filter(AYP,sex=="Female"))
+ayp_m<-nrow(filter(AYP,sex=="Male"))
 #HCBF AND MHMC
 hbcf_complete_q9<-nrow(filter(ebi_HBCF,complete_sessions=="Complete sessions",age >=10 & age<=24,start_date>=as.Date("2023-07-01"),end_date<=as.Date("2023-09-30")))
 hbcf_complete_10<-nrow(filter(ebi_HBCF,complete_sessions=="Complete sessions",age >=10 & age<=24,start_date>=as.Date("2023-10-01"),end_date<=as.Date("2023-12-31")))
